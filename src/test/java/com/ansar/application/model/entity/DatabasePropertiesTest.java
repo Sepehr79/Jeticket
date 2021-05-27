@@ -1,5 +1,6 @@
 package com.ansar.application.model.entity;
 
+import com.ansar.application.model.entity.properties.DatabaseProperties;
 import org.junit.Test;
 
 public class DatabasePropertiesTest {

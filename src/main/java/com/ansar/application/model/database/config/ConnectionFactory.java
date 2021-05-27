@@ -1,9 +1,11 @@
 package com.ansar.application.model.database.config;
 
-import com.ansar.application.model.entity.ConnectionProperties;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+import com.ansar.application.model.entity.properties.ConnectionProperties;
 import org.apache.commons.dbcp.BasicDataSource;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,9 +18,6 @@ public class ConnectionFactory {
 
     private final static BasicDataSource basicDataSource = new BasicDataSource();
 
-    // Connection instance
-    private static Connection connection;
-
     /**
      * Constructor
      */
@@ -26,55 +25,32 @@ public class ConnectionFactory {
 
     }
 
+    public static Connection openConnection(ConnectionProperties properties) throws SQLException {
+        if (isAvailable(properties.getAddress(), Integer.parseInt(properties.getPort().trim()))){
+            // Create suitable input string
+            String connectionString =  "jdbc:sqlserver://" + properties.getAddress().trim() + ":"
+                    + properties.getPort().trim() + "; databaseName=" + properties.getDatabaseName().trim() + ";";
 
+            logger.info("Database url: " + connectionString);
 
-    /**
-     * Open connection to the sql serer database
-     * @return opened connection
-     */
-    public void openConnection() throws SQLServerException {
-        ConnectionProperties connectionProperties = ConnectionProperties.deserializeFromXml();
+            basicDataSource.setUrl(connectionString);
+            basicDataSource.setUsername(properties.getUserName());
+            basicDataSource.setPassword(properties.getPassword());
+            basicDataSource.setMinIdle(2);
+            basicDataSource.setMaxIdle(4);
+            basicDataSource.setMaxOpenPreparedStatements(10);
 
-        // Create suitable input string
-        String connectionString =  "jdbc:sqlserver://" + connectionProperties.getAddress().trim() + ":"
-                + connectionProperties.getPort().trim() + "; databaseName=" + connectionProperties.getDatabaseName().trim() + ";";
+            return basicDataSource.getConnection();
+        }
+        throw new SQLException("Connection is unavailable");
+    }
 
-        logger.info("Connection string: " + connectionString);
-
-        try {
-            // Open connection
-            connection = DriverManager.getConnection(connectionString, connectionProperties.getUserName().trim(), connectionProperties.getPassword().trim());
-            logger.info("Connection opened!");
-        } catch (SQLServerException exception){
-
-            // When failed to open connection
-            logger.info("Connection not successful !");
-            throw exception;
-
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+    private static boolean isAvailable(String host ,int port) {
+        try (Socket ignored = new Socket(host, port)) {
+            return true;
+        } catch (IOException ignored) {
+            return false;
         }
     }
 
-    public void closeConnection(){
-        try {
-            connection().close();
-            logger.info("Connection closed!");
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } catch (NullPointerException exception){
-            logger.info("Cant close opened connection !");
-        }
-    }
-
-    public static ConnectionFactory getInstance(){
-        return new ConnectionFactory();
-    }
-
-    /**
-     * @return connection it may be open or close
-     */
-    public Connection connection(){
-        return connection;
-    }
 }

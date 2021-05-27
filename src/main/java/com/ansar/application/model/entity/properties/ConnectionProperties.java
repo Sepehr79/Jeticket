@@ -1,4 +1,4 @@
-package com.ansar.application.model.entity;
+package com.ansar.application.model.entity.properties;
 
 import javax.xml.bind.JAXB;
 import java.io.*;
@@ -89,6 +89,8 @@ public class ConnectionProperties {
     }
 
     public String getAddress() {
+        if (address == null || address.equals(""))
+            return "localhost";
         return address;
     }
 
@@ -97,6 +99,8 @@ public class ConnectionProperties {
     }
 
     public String getPort() {
+        if (port == null || port.equals(""))
+            return "1433";
         return port;
     }
 

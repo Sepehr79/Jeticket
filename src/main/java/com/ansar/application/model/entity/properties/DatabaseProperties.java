@@ -1,9 +1,8 @@
-package com.ansar.application.model.entity;
+package com.ansar.application.model.entity.properties;
 
 import javax.xml.bind.JAXB;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
