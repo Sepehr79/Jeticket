@@ -15,11 +15,8 @@ public class ConnectionTest {
 
         try {
             Connection connection = ConnectionFactory.openConnection(properties);
-            if (connection != null){
-                connection.close();
-                System.out.println("Connection successfully opened and closed");
-            } else
-                System.out.println("Connection is unavailable");
+            connection.close();
+            System.out.println("Connection successfully opened and closed");
         } catch (SQLException exception) {
             System.out.println("Wrong connection properties");
             exception.printStackTrace();
