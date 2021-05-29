@@ -12,10 +12,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -27,12 +29,11 @@ public class MainController implements Initializable {
 
     // Processing
     @FXML private TextField textInput;
-    @FXML private Label anbarLabel;
 
-    @FXML private Label name;
-    @FXML private Label storePrice;
-    @FXML private Label highPrice;
-    @FXML private Label discount;
+    @FXML private Text name;
+    @FXML private Text storePrice;
+    @FXML private Text highPrice;
+    @FXML private Text discount;
 
 
     // Connection setting
@@ -44,6 +45,9 @@ public class MainController implements Initializable {
 
     private static ConnectionProperties connectionProperties;
     private static DatabaseProperties databaseProperties;
+
+    // To format money fields
+    private static final DecimalFormat formatter = new DecimalFormat("#,###");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +64,6 @@ public class MainController implements Initializable {
 
         // processing page
         textInput.requestFocus();
-        anbarLabel.setText(databaseProperties.getAnbarName());
     }
 
     public void showAnbarDialog(MouseEvent mouseEvent) {
@@ -69,6 +72,7 @@ public class MainController implements Initializable {
 
         dialog.setTitle("Input");
         dialog.setHeaderText("Please enter storeroom number");
+        dialog.getEditor().setText(databaseProperties.getAnbarName());
 
         Optional<String> anbarId = dialog.showAndWait();
 
@@ -76,8 +80,6 @@ public class MainController implements Initializable {
                 {
                     if (!s.equals("")) {
                         databaseProperties.setAnbarName(s);
-
-                        anbarLabel.setText(s);
 
                         DatabaseProperties.serializeToXml(databaseProperties);
                     }
@@ -97,8 +99,12 @@ public class MainController implements Initializable {
 
                 if (product != null) {
                     name.setText(product.getName());
-                    storePrice.setText(String.valueOf(product.getLowPrice()));
-                    highPrice.setText(String.valueOf(product.getHighPrice()));
+
+                    String storeStrPrice = formatter.format(product.getLowPrice());
+                    String highStrPrice = formatter.format(product.getHighPrice());
+
+                    storePrice.setText(storeStrPrice);
+                    highPrice.setText(highStrPrice);
 
                     int discountNumber = product.getDiscount();
                     if (discountNumber > 10)
@@ -115,7 +121,7 @@ public class MainController implements Initializable {
             }
 
         } catch (SQLException | NumberFormatException exception) {
-            //exception.printStackTrace();
+            exception.printStackTrace();
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Problem with connecting!");
@@ -153,6 +159,8 @@ public class MainController implements Initializable {
             alert.showAndWait();
 
         } catch (SQLException | NumberFormatException exception) {
+            exception.printStackTrace();
+
             logger.info("Connection unsuccessful !");
 
             Alert alert = new Alert(Alert.AlertType.ERROR);

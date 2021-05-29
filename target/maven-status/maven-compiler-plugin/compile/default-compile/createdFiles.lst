@@ -1,3 +1,10 @@
+com\ansar\application\model\entity\properties\ConnectionProperties$1.class
 com\ansar\application\Main.class
+com\ansar\application\model\database\config\ConnectionFactory.class
+com\ansar\application\model\entity\properties\ConnectionProperties.class
+com\ansar\application\model\entity\properties\ConnectionProperties$Builder.class
 com\ansar\application\controller\MainController.class
+com\ansar\application\model\entity\properties\DatabaseProperties.class
+com\ansar\application\model\entity\beans\Product.class
 com\ansar\application\view\ViewLoader.class
+com\ansar\application\model\database\api\DatabaseApi.class
