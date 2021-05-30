@@ -6,7 +6,7 @@
 
     <groupId>com.ansar</groupId>
     <artifactId>Jeticket</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-REALESED</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

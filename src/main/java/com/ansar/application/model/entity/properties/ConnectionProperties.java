@@ -1,5 +1,7 @@
 package com.ansar.application.model.entity.properties;
 
+import com.ansar.application.model.entity.beans.TextDecoder;
+
 import javax.xml.bind.JAXB;
 import java.io.*;
 import java.nio.file.Files;
@@ -135,6 +137,9 @@ public class ConnectionProperties {
     public static void serializeToXml(ConnectionProperties properties){
 
         try(BufferedWriter writer = Files.newBufferedWriter(Paths.get("connection.xml"))) {
+
+            properties.setPassword(TextDecoder.encode(properties.getPassword(), 5));
+
             JAXB.marshal(properties, writer);
         }catch (Exception exception){
             exception.printStackTrace();
@@ -143,8 +148,13 @@ public class ConnectionProperties {
 
     public static ConnectionProperties deserializeFromXml(){
         try (BufferedReader reader = Files.newBufferedReader(Paths.get("connection.xml"))){
-            return JAXB.unmarshal(reader, ConnectionProperties.class);
+            ConnectionProperties properties = JAXB.unmarshal(reader, ConnectionProperties.class);
+
+            properties.setPassword(TextDecoder.decode(properties.getPassword(), 5));
+
+            return properties;
         }catch (NoSuchFileException exception){
+
           logger.info("Connection file not found");
         } catch (IOException exception){
             exception.printStackTrace();

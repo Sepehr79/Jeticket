@@ -120,13 +120,15 @@ public class MainController implements Initializable {
                 }
             }
 
-        } catch (SQLException | NumberFormatException exception) {
+        } catch (SQLException exception) {
             exception.printStackTrace();
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Problem with connecting!");
             alert.setContentText("Please check your connection setting");
             alert.showAndWait();
+        }catch (NumberFormatException | ArithmeticException exception){
+            exception.printStackTrace();
         } finally {
             textInput.setText("");
         }
