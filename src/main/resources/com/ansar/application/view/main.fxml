@@ -15,59 +15,59 @@
                      <children>
                         <GridPane alignment="CENTER" vgap="10.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1000.0" minWidth="400.0" prefWidth="800.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="200.0" prefWidth="300.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1200.0" minWidth="400.0" prefWidth="700.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="200.0" minHeight="50.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="200.0" minHeight="50.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="200.0" minHeight="50.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="200.0" minHeight="50.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="200.0" minHeight="50.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="200.0" minHeight="50.0" prefHeight="150.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1000.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white;" textAlignment="CENTER">
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1200.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white;" textAlignment="CENTER">
                                  <font>
                                     <Font name="Arial" size="31.0" />
                                  </font>
                                  <graphic>
-                                    <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0">
+                                    <Text fx:id="name" cache="true" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 1.5em;" textAlignment="CENTER" wrappingWidth="800.0">
                                        <font>
-                                          <Font name="B Yekan" size="54.0" />
+                                          <Font name="B Yekan" size="30.0" />
                                        </font>
                                     </Text>
                                  </graphic></Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1000.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white;" textAlignment="CENTER" GridPane.rowIndex="1">
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1200.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white;" textAlignment="CENTER" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="Arial Bold" size="27.0" />
                                  </font>
                                  <graphic>
                                     <Text fx:id="storePrice" strokeType="OUTSIDE" strokeWidth="0.0">
                                        <font>
-                                          <Font name="B Yekan" size="54.0" />
+                                          <Font name="B Yekan" size="80.0" />
                                        </font>
                                     </Text>
                                  </graphic></Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1000.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white; -fx-strikethrough: true;" textAlignment="CENTER" GridPane.rowIndex="2">
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1200.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white; -fx-strikethrough: true;" textAlignment="CENTER" GridPane.rowIndex="2">
                                  <font>
                                     <Font name="Arial Bold" size="27.0" />
                                  </font>
                                  <graphic>
                                     <Text fx:id="highPrice" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                        <font>
-                                          <Font name="B Yekan" size="54.0" />
+                                          <Font name="B Yekan" size="80.0" />
                                        </font>
                                     </Text>
                                  </graphic></Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1000.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white;" textAlignment="CENTER" GridPane.rowIndex="3">
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1000.0" maxWidth="1200.0" minHeight="50.0" minWidth="400.0" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white;" textAlignment="CENTER" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="Arial Bold" size="27.0" />
                                  </font>
                                  <graphic>
                                     <Text fx:id="discount" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                        <font>
-                                          <Font name="B Yekan" size="54.0" />
+                                          <Font name="B Yekan" size="80.0" />
                                        </font>
                                     </Text>
                                  </graphic></Label>
@@ -75,7 +75,7 @@
                                  <font>
                                     <Font name="System Bold" size="30.0" />
                                  </font></TextField>
-                              <StackPane maxHeight="100.0" minHeight="50.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: orange;" GridPane.columnIndex="1">
+                              <StackPane maxHeight="200.0" minHeight="50.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: orange;" GridPane.columnIndex="1">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="نام" textAlignment="CENTER">
                                        <font>
@@ -84,7 +84,7 @@
                                     </Text>
                                  </children>
                               </StackPane>
-                              <StackPane maxHeight="100.0" minHeight="50.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: orange;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <StackPane maxHeight="200.0" minHeight="50.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: orange;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="قیمت فروشگاه" textAlignment="CENTER">
                                        <font>
@@ -93,7 +93,7 @@
                                     </Text>
                                  </children>
                               </StackPane>
-                              <StackPane maxHeight="100.0" minHeight="50.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: orange;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <StackPane maxHeight="200.0" maxWidth="450.0" minHeight="50.0" minWidth="250.0" prefHeight="150.0" prefWidth="400.0" style="-fx-background-color: orange;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="قیمت مصرف کننده" textAlignment="CENTER">
                                        <font>
@@ -102,7 +102,7 @@
                                     </Text>
                                  </children>
                               </StackPane>
-                              <StackPane maxHeight="100.0" minHeight="50.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: orange;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <StackPane maxHeight="200.0" minHeight="50.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: orange;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="درصد تخفیف" textAlignment="CENTER">
                                        <font>

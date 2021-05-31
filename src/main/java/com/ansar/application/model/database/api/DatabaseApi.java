@@ -2,8 +2,8 @@ package com.ansar.application.model.database.api;
 
 import com.ansar.application.model.database.config.ConnectionFactory;
 import com.ansar.application.model.entity.properties.ConnectionProperties;
-import com.ansar.application.model.entity.properties.DatabaseProperties;
 import com.ansar.application.model.entity.beans.*;
+import com.ansar.application.model.entity.properties.DatabaseProperties;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,57 +13,64 @@ import java.util.logging.Logger;
 
 public class DatabaseApi {
 
+    // Logger for debugging and testing
     private static final Logger logger = Logger.getLogger(DatabaseApi.class.getName());
 
-    private final Connection connection;
+    private final ConnectionProperties connectionProperties;
+    private final DatabaseProperties databaseProperties;
 
-    private final PreparedStatement idSelector;
+    public DatabaseApi(ConnectionProperties connectionProperties, DatabaseProperties databaseProperties) throws SQLException {
+        this.connectionProperties = connectionProperties;
+        this.databaseProperties = databaseProperties;
 
-    public DatabaseApi(ConnectionProperties properties) throws SQLException {
+    }
 
-        connection = ConnectionFactory.openConnection(properties);
+    public Product getProductById(String id) throws SQLException {
 
+        // Open connection
+        Connection connection = ConnectionFactory.openConnection(connectionProperties);
         logger.info("Connection opened!");
 
-        idSelector = connection.prepareStatement("select ID1, K_Code_B, A_Code, Name1, Price_Consumer, Price_Forosh, K_Qty1 from(\n" +
-                "select kalaid.K_Code as ID1 ,A_Code, Name1, Price_Consumer, price_forosh from kalaid join Anbar on KalaId.K_Code = Anbar.K_Code\n" +
+        // Create Query with specific values
+        PreparedStatement idSelector = connection.prepareStatement("select ID1, K_Code_B, A_Code, Name1, Price_Consumer, Price_Forosh,Barcode, K_Qty1 from(\n" +
+                "select kalaid.K_Code as ID1 ,A_Code, Name1, Barcode, Price_Consumer, price_forosh from kalaid join Anbar on KalaId.K_Code = Anbar.K_Code\n" +
                 ") P\n" +
                 "join\n" +
                 "(select k_Code, '0' as K_Code_B, 1 as K_Qty1 from KalaId left join (select K_Code as ID ,'0' as k_code_B, 1 as K_Qty1 from TblBasket_Kala) P on K_Code = P.ID\n" +
                 "union all\n" +
-                "select K_Code as ID2,  K_Code_B, K_Qty1 from TblBasket_Kala) T \n" +
-                "on P.ID1 = T.K_Code where (ID1 = ? or K_Code_B = ?) and A_Code = ?;");
+                "select K_Code as ID2,  K_Code_B, K_Qty1 from TblBasket_Kala) T\n" +
+                "on P.ID1 = T.K_Code where (ID1 = ? or K_Code_B = ? or Barcode = ?) and A_Code = ?;");
 
-    }
+        idSelector.setString(1, id.trim());
+        idSelector.setString(2, id.trim());
+        idSelector.setString(3, id.trim());
+        idSelector.setString(4, databaseProperties.getAnbarName().trim());
 
-    public Product getProductById(String id, String anbarCode) throws SQLException {
 
-        DatabaseProperties properties = DatabaseProperties.deserializeFromXml();
+        try {
+            // Read data from executed query
+            ResultSet resultSet = idSelector.executeQuery();
 
-        idSelector.setString(1, id);
-        idSelector.setString(2, id);
-        idSelector.setString(3, anbarCode);
+            if (resultSet.next()){
+                String name = resultSet.getString("name1");
+                String highPrice = resultSet.getString("price_forosh");
+                String lowPrice = resultSet.getString("Price_Consumer");
+                String count = resultSet.getString("K_Qty1");
 
-        ResultSet resultSet = idSelector.executeQuery();
+                if (lowPrice == null) {
+                    lowPrice = "0";
+                }
 
-        if (resultSet.next()){
-            String name = resultSet.getString("name1");
-            String highPrice = resultSet.getString("price_forosh");
-            String lowPrice = resultSet.getString("Price_Consumer");
-            String count = resultSet.getString("K_Qty1");
-
-            if (lowPrice == null){
-                lowPrice = "0";
+                return new Product(name, lowPrice, highPrice, count);
             }
+            // Return null if no result found
+            return null;
 
-            return new Product(name, lowPrice, highPrice, count);
+        }finally {
+            // Finally we should close the connection
+            connection.close();
+            logger.info("Connection closed");
         }
-
-        connection.close();
-
-        logger.info("Connection closed");
-
-        return null;
     }
 
 

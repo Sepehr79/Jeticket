@@ -1,10 +1,6 @@
 package com.ansar.application.model.entity.beans;
 
-import javax.xml.bind.DatatypeConverter;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.Base64.Encoder;
-import java.util.Base64.Decoder;
 
 public class TextDecoder {
 

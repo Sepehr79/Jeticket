@@ -69,7 +69,6 @@ public class MainController implements Initializable {
     public void showAnbarDialog(MouseEvent mouseEvent) {
         TextInputDialog dialog = new TextInputDialog();
 
-
         dialog.setTitle("Input");
         dialog.setHeaderText("Please enter storeroom number");
         dialog.getEditor().setText(databaseProperties.getAnbarName());
@@ -91,45 +90,26 @@ public class MainController implements Initializable {
         try {
             if (keyEvent.getCode() == KeyCode.ENTER) {
 
-                DatabaseApi api = new DatabaseApi(connectionProperties);
+                DatabaseApi api = new DatabaseApi(connectionProperties, databaseProperties);
 
                 String id = textInput.getText();
 
-                Product product = api.getProductById(id, databaseProperties.getAnbarName().trim());
+                Product product = api.getProductById(id);
 
-                if (product != null) {
-                    name.setText(product.getName());
-
-                    String storeStrPrice = formatter.format(product.getLowPrice());
-                    String highStrPrice = formatter.format(product.getHighPrice());
-
-                    storePrice.setText(storeStrPrice);
-                    highPrice.setText(highStrPrice);
-
-                    int discountNumber = product.getDiscount();
-                    if (discountNumber > 10)
-                        discount.setText(String.valueOf(discountNumber));
-                    else
-                        discount.setText("");
-                } else {
-
-                    name.setText("");
-                    storePrice.setText("");
-                    highPrice.setText("");
-                    discount.setText("");
-                }
+                setCurrentProduct(product);
             }
 
         } catch (SQLException exception) {
             exception.printStackTrace();
+            showAlert("Problem with connecting!",
+                    "Please check your connection setting",
+                    Alert.AlertType.ERROR);
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Problem with connecting!");
-            alert.setContentText("Please check your connection setting");
-            alert.showAndWait();
         }catch (NumberFormatException | ArithmeticException exception){
+            // Catch Any expected exceptions
             exception.printStackTrace();
         } finally {
+            // Finally, the input is reset
             textInput.setText("");
         }
 
@@ -156,18 +136,63 @@ public class MainController implements Initializable {
 
             logger.info("Connection successful !");
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("Connection successful !");
-            alert.showAndWait();
+            showAlert("Connection successful !", null, Alert.AlertType.INFORMATION);
 
         } catch (SQLException | NumberFormatException exception) {
             exception.printStackTrace();
 
             logger.info("Connection unsuccessful !");
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Connection unsuccessful !");
-            alert.showAndWait();
+            showAlert("Cannot connect to the sql server", "Please check your connection settings",
+                    Alert.AlertType.ERROR);
+
         }
     }
+
+    // Private methods
+
+    /**
+     * Change the displayed product
+     * @param product will display on view
+     * Empty the appearance if the product is null
+     */
+    private void setCurrentProduct(Product product){
+        if (product != null) {
+
+            name.setText(product.getName());
+
+            String storeStrPrice = formatter.format(product.getLowPrice());
+            String highStrPrice = formatter.format(product.getHighPrice());
+
+            storePrice.setText(storeStrPrice);
+            highPrice.setText(highStrPrice);
+
+            int discountNumber = product.getDiscount();
+
+            if (discountNumber >= 10)
+                discount.setText(String.valueOf(discountNumber) + "%");
+            else
+                discount.setText("");
+
+        } else {
+            resetPage();
+        }
+    }
+
+    /**
+     * Reset the current page
+     */
+    private void resetPage(){
+         name.setText("");
+         storePrice.setText("");
+         highPrice.setText("");
+         discount.setText("");
+     }
+
+     private void showAlert(String headerText, String contentText, Alert.AlertType type){
+        Alert alert = new Alert(type);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
+     }
 }
