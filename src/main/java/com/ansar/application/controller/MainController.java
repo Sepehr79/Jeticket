@@ -107,6 +107,8 @@ public class MainController implements Initializable {
 
         }catch (NumberFormatException | ArithmeticException exception){
             // Catch Any expected exceptions
+            // 0 / 0 Exception
+            discount.setText("");
             exception.printStackTrace();
         } finally {
             // Finally, the input is reset

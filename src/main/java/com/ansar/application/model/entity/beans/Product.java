@@ -51,7 +51,13 @@ public class Product {
     }
 
     public String getName() {
-        return name;
+        if (count.intValue() > 1)
+            return name + " " + count.intValue() + " عدد ";
+        else if (count.floatValue() < 1){
+            return name + " " + count.multiply(new BigDecimal("1000")).intValue() + " گرمی ";
+        }
+        else
+            return name;
     }
 
     public int getHighPrice() {
