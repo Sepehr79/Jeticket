@@ -1,5 +1,5 @@
 ### Jeticket
 
-Database application for store that reads data from sql server
+Database application that reads data from sql server
 
-![Application image](pictures/picture.png)
+![Application image](pictures/app.png)
