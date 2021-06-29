@@ -3,6 +3,7 @@ package com.ansar.application.controller;
 import com.ansar.application.model.database.api.DatabaseApi;
 import com.ansar.application.model.database.config.ConnectionFactory;
 import com.ansar.application.model.entity.beans.Product;
+import com.ansar.application.model.entity.logic.Calculator;
 import com.ansar.application.model.entity.properties.ConnectionProperties;
 import com.ansar.application.model.entity.properties.DatabaseProperties;
 import javafx.event.ActionEvent;
@@ -89,12 +90,12 @@ public class MainController implements Initializable {
     public void keyPressed(KeyEvent keyEvent) {
         try {
             if (keyEvent.getCode() == KeyCode.ENTER) {
-
-                DatabaseApi api = new DatabaseApi(connectionProperties, databaseProperties);
-
+                DatabaseApi api = new DatabaseApi();
                 String id = textInput.getText();
 
+                api.openConnection(connectionProperties, databaseProperties);
                 Product product = api.getProductById(id);
+                api.closeConnection();
 
                 setCurrentProduct(product);
             }
@@ -117,7 +118,9 @@ public class MainController implements Initializable {
 
     }
 
-
+    public void setFocus(MouseEvent mouseEvent) {
+        textInput.requestFocus();
+    }
 
     public void doConnection(ActionEvent actionEvent) {
         String address = this.address.getText();
@@ -169,12 +172,16 @@ public class MainController implements Initializable {
             storePrice.setText(storeStrPrice);
             highPrice.setText(highStrPrice);
 
-            int discountNumber = product.getDiscount();
-
-            if (discountNumber >= 10)
-                discount.setText(String.valueOf(discountNumber) + "%");
-            else
-                discount.setText("");
+            try {
+                int discountNumber = Calculator.calculateDiscount(product.getLowPrice(), product.getHighPrice());
+                if (discountNumber >= 10)
+                    discount.setText(String.valueOf(discountNumber) + "%");
+                else
+                    discount.setText("");
+            }catch (ArithmeticException | NumberFormatException | NullPointerException exception){
+                logger.info("Exception while calculating discount!");
+//                exception.printStackTrace();
+            }
 
         } else {
             resetPage();

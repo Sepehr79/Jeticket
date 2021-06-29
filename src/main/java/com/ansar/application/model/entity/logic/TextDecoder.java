@@ -1,4 +1,4 @@
-package com.ansar.application.model.entity.beans;
+package com.ansar.application.model.entity.logic;
 
 import java.util.Base64;
 

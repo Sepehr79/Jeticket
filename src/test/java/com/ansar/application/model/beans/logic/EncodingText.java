@@ -1,6 +1,6 @@
-package com.ansar.application.model.beans;
+package com.ansar.application.model.beans.logic;
 
-import com.ansar.application.model.entity.beans.TextDecoder;
+import com.ansar.application.model.entity.logic.TextDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 

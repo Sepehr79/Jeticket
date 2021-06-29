@@ -1,7 +1,6 @@
 package com.ansar.application.model.entity.beans;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.logging.Logger;
 
 public class Product {
@@ -9,9 +8,9 @@ public class Product {
     private static final Logger logger = Logger.getLogger(Product.class.getName());
 
     private String name;
-    private BigDecimal highPrice;
-    private BigDecimal lowPrice;
-    private BigDecimal count;
+    private String highPrice;
+    private String lowPrice;
+    private String count;
 
 
     public Product(String name, String highPrice, String lowPrice, String count) {
@@ -27,71 +26,51 @@ public class Product {
 
     public void setHighPrice(String highPrice) {
         if (highPrice.trim().matches("[0-9]*\\.?[0-9]*"))
-            this.highPrice = new BigDecimal(highPrice);
+            this.highPrice = highPrice;
         else
             throw new IllegalArgumentException("You must enter a number");
     }
 
     public void setLowPrice(String lowPrice) {
         if (lowPrice.trim().matches("[0-9]*\\.?[0-9]*"))
-            this.lowPrice = new BigDecimal(lowPrice.trim());
+            this.lowPrice = lowPrice;
         else
             throw new IllegalArgumentException("You must enter a number");
     }
 
     public BigDecimal getCount() {
-        return count;
+        return new BigDecimal(count);
     }
 
     public void setCount(String count) {
         if (count.trim().matches("[0-9]*\\.?[0-9]*"))
-            this.count = new BigDecimal(count);
+            this.count = count;
         else
             throw new IllegalArgumentException("You must enter a number");
     }
 
     public String getName() {
-        if (count.intValue() > 1)
-            return name + " " + count.intValue() + " عدد ";
-        else if (count.floatValue() < 1){
-            return name + " " + count.multiply(new BigDecimal("1000")).intValue() + " گرمی ";
+        if (Float.parseFloat(count) > 1)
+            return name + " " +  getCount().intValue() + " عدد ";
+        else if (Float.parseFloat(count) < 1){
+            return name + " " + (int) (getCount().floatValue() * 1000) + " گرمی ";
         }
         else
             return name;
     }
 
-    public int getHighPrice() {
-        return highPrice.multiply(count).intValue();
+    public BigDecimal getHighPrice() {
+        BigDecimal highPrice = new BigDecimal(this.highPrice);
+        BigDecimal count = new BigDecimal(this.count);
+
+        return highPrice.multiply(count);
     }
 
-    public int getLowPrice() {
-        return lowPrice.multiply(count).intValue();
-    }
+    public BigDecimal getLowPrice() {
+        BigDecimal lowPrice = new BigDecimal(this.lowPrice);
+        BigDecimal count = new BigDecimal(this.count);
 
-    public int getDiscount() {
-        try {
-
-            logger.info("High price: " + highPrice);
-            logger.info("Low price: " + lowPrice);
-
-            BigDecimal calculating = highPrice.subtract(lowPrice);
-
-            logger.info("Subtracted price:" + calculating);
-
-            calculating = calculating.divide(highPrice, MathContext.DECIMAL128);
-
-            logger.info("Divided price: " + calculating);
-
-            calculating = calculating.multiply(new BigDecimal("100"));
-
-            logger.info("Final: " + calculating);
-
-            return calculating.intValue();
-        }catch (NumberFormatException exception){
-            exception.printStackTrace();
-            logger.info("Exception in calculating discount");
-        }
-        return -1;
+        return lowPrice.multiply(count);
     }
 
     @Override

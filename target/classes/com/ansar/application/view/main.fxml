@@ -9,7 +9,7 @@
   <tabs>
     <Tab style="fx-font-style: B yekan;" text="عملیات">
          <content>
-            <AnchorPane onKeyPressed="#keyPressed" prefHeight="200.0" prefWidth="200.0" styleClass="backgroundSelector">
+            <AnchorPane onKeyPressed="#keyPressed" onMouseClicked="#setFocus" prefHeight="200.0" prefWidth="200.0" styleClass="backgroundSelector">
                <children>
                   <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="150.0">
                      <children>

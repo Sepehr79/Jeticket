@@ -1,6 +1,6 @@
 package com.ansar.application.model.entity.properties;
 
-import com.ansar.application.model.entity.beans.TextDecoder;
+import com.ansar.application.model.entity.logic.TextDecoder;
 
 import javax.xml.bind.JAXB;
 import java.io.*;
