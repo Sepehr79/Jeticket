@@ -9,6 +9,7 @@ import com.ansar.application.model.entity.properties.DatabaseProperties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -70,8 +71,8 @@ public class MainController implements Initializable {
     public void showAnbarDialog(MouseEvent mouseEvent) {
         TextInputDialog dialog = new TextInputDialog();
 
-        dialog.setTitle("Input");
-        dialog.setHeaderText("Please enter storeroom number");
+        dialog.setTitle("انبار");
+        dialog.setHeaderText("لطفا شماره انبار را وارد کنید");
         dialog.getEditor().setText(databaseProperties.getAnbarName());
 
         Optional<String> anbarId = dialog.showAndWait();
@@ -102,8 +103,8 @@ public class MainController implements Initializable {
 
         } catch (SQLException exception) {
             exception.printStackTrace();
-            showAlert("Problem with connecting!",
-                    "Please check your connection setting",
+            showAlert("خطا در اتصال",
+                    "لطفا تنظیمات اتصال خود را چک کنید",
                     Alert.AlertType.ERROR);
 
         }catch (NumberFormatException | ArithmeticException exception){
@@ -141,14 +142,14 @@ public class MainController implements Initializable {
 
             logger.info("Connection successful !");
 
-            showAlert("Connection successful !", null, Alert.AlertType.INFORMATION);
+            showAlert("اتصال موفقیت آمیز", "اتصال با موفقیت انجام شد", Alert.AlertType.INFORMATION);
 
         } catch (SQLException | NumberFormatException exception) {
             exception.printStackTrace();
 
             logger.info("Connection unsuccessful !");
 
-            showAlert("Cannot connect to the sql server", "Please check your connection settings",
+            showAlert("اتصال به دیتابیس ممکن نیست", "لطفا تنظیمات اتصال خود را چک کنید یا با توسعه دهنده تماس بگیرید 09374328978",
                     Alert.AlertType.ERROR);
 
         }
@@ -200,8 +201,10 @@ public class MainController implements Initializable {
 
      private void showAlert(String headerText, String contentText, Alert.AlertType type){
         Alert alert = new Alert(type);
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
+        alert.setTitle(String.valueOf("پیام"));
+        alert.setHeaderText(String.valueOf(headerText));
+        alert.setContentText(String.valueOf(contentText));
+        alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         alert.showAndWait();
      }
 }
