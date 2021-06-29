@@ -51,9 +51,9 @@ public class Product {
 
     public String getName() {
         if (Float.parseFloat(count) > 1)
-            return name + " " +  getCount().intValue() + " عدد ";
+            return name + " " + String.valueOf( getCount().intValue() ) + " عدد ";
         else if (Float.parseFloat(count) < 1){
-            return name + " " + (int) (getCount().floatValue() * 1000) + " گرمی ";
+            return name + " " + String.valueOf( (int) (getCount().floatValue() * 1000) )+ " گرمی ";
         }
         else
             return name;
